@@ -1,17 +1,26 @@
 # SQL-Practice
 Collection of SQL queries for practice and learning
 
-# SQL Practice
-This repository contains my SQL practice queries created while learning database fundamentals.
+## What this repository includes
+- SQL table design examples
+- Data insertion scripts
 
-## Topic Covered
-- Basics SELECT queries
-- WHERE, ORDER BY, LIMIT
-- Aggregate functions (COUNT, SUM, AVG, etc.)
-- GROUP BY and HAVING
-- Joins
-- Subqueries
-- Basic database and table operations
+## Topic-wise SQL queries:
+- SELECT
+- WHERE
+- ORDER BY
+- GROUP BY
+- JOINS
+- SUBQUERIES
+- FUNCTIONS
+Practice questions for self-testing
+
+## Purpose
+- Build strong SQL fundamentals
+- Improve query writeing skills
+- Maintain organized learning records
 
 ## Tools Used
-- MySQL / PostgreSQL 
+- MySQL / PostgreSQL (for practice)
+
+
