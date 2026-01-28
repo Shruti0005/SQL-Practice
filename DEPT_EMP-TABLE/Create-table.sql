@@ -1,0 +1,19 @@
+-- Create table for department
+CREATE TABLE DEPT(
+   DEPTNO INT PRIMARY KEY,
+   DNAME VARCHAR(20) NOT NULL,
+   LOC VARCHAR(20) NOT NULL
+);
+
+--Create table for Empolyee
+CREATE TABLE EMP( 
+        EMPNO INT PRIMARY KEY, 
+        ENAME VARCHAR(30) NOT NULL, 
+        JOB VARCHAR(20) NOT NULL, 
+        HIREDATE DATE NOT NULL, 
+        MGR INT, 
+        SAL INT CHECK (SAL > 0), 
+        COMM INT, 
+        DEPTNO INT, 
+        FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO)
+);
