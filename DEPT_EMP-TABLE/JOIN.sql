@@ -1,0 +1,432 @@
+-- INNER JOIN: -
+-- NAME OF THE EMPLOYEE AND HIS LOCATION OF ALL THE EMPLOYEES.
+SELECT ENAME, LOC 
+FROM EMP INNER JOIN DEPT  
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- WAQTD DNAME AND SALARY FOR ALL THE EMPLOYEE WORKING IN ACCOUNTING.
+SELECT DNAME, SAL
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE DNAME = 'ACCOUNTING';
+
+-- WAQTD DNAME AND ANNUAL SALARY FOR ALL EMPLOYEES WHOS SALARY IS MORE THAN 2340
+SELECT DNAME, SAL*12 AS ANNUAL_SAL 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO  
+WHERE SAL > 2340;
+
+-- WAQTD ENAME AND DNAME FOR EMPLOYEES HAVING CAHARACTER 'A' IN THEIR DNAME
+SELECT ENAME, DNAME 
+FROM EMP INNER JOIN DEPT  
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE LOCATE('A', DNAME) > 0;
+
+-- WAQTD ENAME AND DNAME FOR ALL THE EMPLOYEES WORKING AS SALESMAN
+SELECT ENAME, DNAME
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE JOB = 'SALESMAN';
+
+-- WADTD DNAME AND JOB FOR ALL THE EMPLOYEES WHOS JOB AND DNAME STARTS WITH CHARACTER 'S'
+SELECT DNAME, JOB 
+FROM EMP INNER JOIN DEPT  
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE JOB LIKE 'S%' AND DNAME LIKE 'S%';
+
+-- WAQTD DNAME AND MGR NO FOR EMPLOYEES REPORTING TO 7839
+SELECT DNAME, MGR 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE MGR = 7839;
+
+-- WAQTD DNAME AND HIREDATE FOR EMPLOYEES HIRED AFTER 83 INTO ACCOUNTING OR RESEARCH DEPT
+SELECT DNAME, HIREDATE 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE YEAR(HIREDATE) > 1983 AND DNAME IN ('ACCOUNTING', 'RESEARCH');
+
+-- WAQTD ENAME AND DNAME OF THE EMPLOYEES WHO ARE GETTING COMM IN DEPT 10 OR 30
+SELECT ENAME, DNAME 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE COMM IS NOT NULL AND COMM > 0 AND EMP.DEPTNO IN (10, 30);
+
+-- WAQTD DNAME AND EMPNO FOR ALL THE EMPLOYEES WHO'S EMPNO ARE (7839,7902) AND ARE WORKING IN LOC NEW YORK.
+SELECT DNAME, EMPNO 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE EMPNO IN (7839, 7902) AND LOC = 'NEW YORK';
+
+-- Display employee name and department name for all employees.
+SELECT ENAME, DNAME 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+--Display employee name, salary, and department location.
+SELECT ENAME, SAL, LOC
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display employee name and department name for employees earning more than 3000.
+SELECT ENAME, DNAME 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+WHERE SAL > 3000;
+
+-- Display employee name, job, and department name for employees working as CLERK.
+SELECT ENAME, JOB, DNAME
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE JOB = 'CLERK';
+
+-- Display employee name, hiredate, and department location for employees hired after 1982.
+SELECT ENAME, HIREDATE, LOC
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE YEAR(HIREDATE) > 1982;
+
+-- Display employee name and department name for employees working in SALES department.
+SELECT ENAME, DNAME
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE DNAME = 'SALES';
+
+-- Display employee name and salary for employees working in CHICAGO location.
+SELECT ENAME, SAL 
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE LOC = 'CHICAGO';
+
+-- Display employee name, department name, and salary where commission is not NULL.
+SELECT ENAME, DNAME, SAL
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+WHERE COMM IS NOT NULL;
+
+-- Display employee name, job, and department location ordered by salary descending.
+SELECT ENAME, JOB, LOC
+FROM EMP INNER JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+ORDER BY SAL DESC;
+
+-- Display department name and count of employees in each department.
+SELECT DNAME, COUNT(*) 
+FROM EMP INNER JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+GROUP BY DNAME;
+
+
+-- CROSS JOIN
+-- Display all combinations of employee names and department names.
+SELECT ENAME, DNAME
+FROM EMP CROSS JOIN DEPT;
+
+-- Display employee name and department locations using cross join.
+SELECT ENAME, LOC
+FROM EMP CROSS JOIN DEPT;
+
+-- Display total number of rows produced by cross joining EMP and DEPT.
+SELECT COUNT(*)
+FROM EMP CROSS JOIN DEPT;
+
+-- Display employee name and department name using cross join but only for employees working in department 10.
+SELECT ENAME, DNAME
+FROM EMP CROSS JOIN DEPT
+WHERE EMP.DEPTNO = 10 AND EMP.DEPTNO = DEPT.DEPTNO;
+
+-- LEFT JOIN
+-- Display all employee names and department names, including employees not assigned to any department.
+SELECT ENAME, DNAME
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display employee name and department location, including employees without department.
+SELECT ENAME, LOC
+FROM EMP LEFT JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display employees and department names where department may be missing.
+SELECT ENAME, DNAME
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display number of employees in each department including departments with zero employees.
+SELECT DNAME, COUNT(EMP.EMPNO)
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+GROUP BY DNAME;
+
+-- Display department names and employee names, showing departments even if no employees exist.
+SELECT DNAME, ENAME
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- RIGHT JOIN
+-- Display employee names and department names including departments without employees.
+SELECT ENAME, DNAME 
+FROM EMP RIGHT JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display department name and employee salary including departments having no employees.
+SELECT DNAME, SAL
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display department names and employee hire dates including departments with no employees.
+SELECT DNAME, HIREDATE
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display department location and employee names including departments without employees.
+SELECT LOC, ENAME
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display departments and count of employees, including empty departments.
+SELECT DNAME, COUNT(EMP.EMP)
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+GROUP BY DNAME;
+
+-- FULL JOIN
+-- Display all employees and all departments, matching where possible.
+SELECT *
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+
+UNION
+
+SELECT *
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display employee names and department names including:
+-- - employees without department
+-- - departments without employees.
+SELECT ENAME, DNAME
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+
+UNION
+
+SELECT ENAME, DNAME
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+-- Display employee name and department location including unmatched rows from both tables.
+SELECT ENAME, LOC
+FROM EMP LEFT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO
+
+UNION
+
+SELECT ENAME, LOC
+FROM EMP RIGHT JOIN DEPT
+ON EMP.DEPTNO = DEPT.DEPTNO;
+
+
+-- Display count of employees per department including unmatched employees and departments.
+SELECT DNAME, COUNT(*) 
+FROM EMP LEFT JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+GROUP BY DNAME
+
+UNION 
+
+SELECT DNAME, COUNT(*) 
+FROM EMP RIGHT JOIN DEPT 
+ON EMP.DEPTNO = DEPT.DEPTNO 
+GROUP BY DNAME;
+
+
+-- SELF JOIN
+-- WAQTD NAME OF THE EMPLOYEE AND MANAGER'S DESIGNATION IF MANAGER WORKS IN DEPT 10 OR 20
+SELECT E.ENAME, M.JOB 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE M.DEPTNO IN (10, 20);
+
+-- WAQTD NAME OF THE EMP AND MANAGERS SALARY IF EMPLOYEE AND MANAGER BOTH EARN MORE THAN 2300
+SELECT E.ENAME, M.SAL 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.SAL > 2300 AND M.SAL > 2300;
+
+-- WAQTD EMP NAME AND MANAGER'S HIREDATE IF EMPLOYEE WAS HIRED BEFORE 1982
+SELECT E.ENAME, M.HIREDATE 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE YEAR(E.HIREDATE) < 1982;
+
+-- WAQTD EMP NAME AND MANAGER'S COMM IF EMPLOYEE WORKS AS SALESMAN AND MANAGER WORKS IN DEPT 30
+SELECT E.ENAME, M.COMM 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.JOB = 'SALESMAN' AND M.DEPTNO = 30;
+OR
+SELECT E.ENAME, IFNULL(M.COMM, 0) 
+FROM EMP E LEFT JOIN 
+EMP M ON E.MGR = M.EMPNO 
+WHERE E.JOB = 'SALESMAN' AND M.DEPTNO = 30;
+
+-- WAQTD EMP NAME AND MANAGER NAME AND THEIR SALARIES IF EMPLOYEE EARNS MORE THAN MANAGER
+SELECT E.ENAME, E.SAL, M.ENAME, M.SAL  
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.SAL > M.SAL;
+
+-- WAQTD EMP NAME AND HIREDATE , MANAGER NAME AND HIREDATE IF MANAGER WAS HIRED BEFORE EMPLOYEE
+SELECT E.ENAME, E.HIREDATE, M.ENAME, M.HIREDATE 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE M.HIREDATE < E.HIREDATE;
+
+-- WAQTD EMP NAME AND MANAGER NAME IF BOTH ARE WORKING IN SAME JOB
+SELECT E.ENAME, M.ENAME 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.JOB = M.JOB;
+
+-- WAQTD EMP NAME AND MANAGER NAME IF MANAGER IS WORKING AS ACTUAL MANAGER
+SELECT E.ENAME, M.ENAME
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO
+WHERE M.JOB = 'MANAGER';
+
+-- WAQTD EMP NAME AND MANAGER NAME ALONG WITH THEIR ANNUAL SALARIES IF EMPLOYEE WORKS IN DEPT 10 , 20 AND MANAGER'S SAL IS GREATER THAN EMPLOYEES SALARY.
+SELECT E.ENAME, E.SAL*12 AS ANNUAL_SAL_EMP, M.ENAME, M.SAL*12 AS ANNUAL_SAL_MGR 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.DEPTNO IN (10, 20) AND M.SAL > E.SAL;
+
+-- WAQTD EMPLOYEE'S NAME AND MANAGER'S SALARY FOR ALL THE EMPLOYEES IF MANAGER'S SALARY ENDS WITH 50
+SELECT E.ENAME, M.SAL 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE M.SAL LIKE '%50';
+
+-- Display employee name and their manager name.
+SELECT E.ENAME, M.NAME
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display employee name and manager salary.
+SELECT E.ENAME, M.SAL
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display employee name and manager job.
+SELECT E.ENAME, M.JOB
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display employee name and manager hiredate.
+SELECT E.ENAME, M.HIREDATE
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display employee name and manager department number.
+SELECT E.ENAME, M.DEPTNO
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display manager name and employees reporting to them.
+SELECT M.ENAME, E.ENAME
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO;
+
+-- Display employee name and manager name for employees working as CLERK.
+SELECT E.ENAME, M.ENAME 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.JOB = 'CLERK';
+
+-- Display employee name and manager name where employee salary is greater than manager salary.
+SELECT E.ENAME, M.ENAME
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO
+WHERE E.SAL > M.SAL;
+
+-- Display employees and managers working in the same department.
+SELECT E.ENAME, M.ENAME
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO
+WHERE E.DEPTNO = M.DEPTNO;
+
+-- Display employees who do not have a manager.
+SELECT E.*
+FROM EMP E LEFT JOIN EMP M
+ON E.MGR = M.EMPNO
+WHERE M.EMPNO IS NULL;
+
+-- Display manager names having more than 2 employees reporting.
+SELECT M.ENAME 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+GROUP BY M.ENAME 
+HAVING COUNT(E.EMPNO) > 2;
+
+-- Display employee name, manager name, and manager’s manager name. 
+SELECT E.ENAME, M.ENAME, M2.ENAME 
+FROM EMP E 
+LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+LEFT JOIN EMP M2 
+ON M.MGR = M2.EMPNO;
+
+-- Display employees hired after their managers.
+SELECT E.ENAME, M.ENAME 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.HIREDATE > M.HIREDATE;
+
+-- Display employees earning more than their managers.
+SELECT E.ENAME, M.ENAME 
+FROM EMP E LEFT JOIN EMP M 
+ON E.MGR = M.EMPNO 
+WHERE E.SAL > M.SAL;
+
+-- NATRUAL JOIN
+-- Display employee names and department names using NATURAL JOIN.
+SELECT ENAME, DNAME
+FROM EMP NATURAL JOIN DEPT;
+
+-- Display employee name, salary, and department location using natural join.
+SELECT ENAME, SAL, LOC
+FROM EMP NATURAL JOIN DEPT;
+
+-- Display employee name and department name for employees earning more than 3000.
+SELECT ENAME, DNAME
+FROM EMP NATURAL JOIN DEPT
+WHERE SAL > 3000;
+
+-- Display employee name and department name for employees working as CLERK.
+SELECT ENAME, DNAME
+FROM EMP NATURAL JOIN DEPT
+WHERE JOB = 'CLERK';
+
+-- Display employee name, job, and department location ordered by salary descending.
+SELECT ENAME, JOB, LOC
+FROM EMP NATURAL JOIN DEPT
+ORDER BY SAL DESC;
+
+-- Display department name and number of employees in each department.
+SELECT DNAME, COUNT(*)
+FROM EMP NATURAL JOIN DEPT
+GROUP BY DNAME;
+
+-- Display employee name and department name for employees working in SALES department.
+SELECT ENAME, DNAME
+FROM EMP NATURAL JOIN DEPT
+WHERE DNAME = 'SALES';
+
+-- Display employee name and salary for employees working in CHICAGO location.
+SELECT ENAME, SAL 
+FROM EMP NATURAL JOIN DEPT
+WHERE LOC = 'CHICAGO';
+
+-- Display employee name, department name, and hiredate for employees hired after 1982.
+SELECT ENAME, DNAME, HIREDATE
+FROM EMP NATURAL JOIN DEPT
+WHERE YEAR(HIREDATE) > 1982;
