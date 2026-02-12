@@ -618,3 +618,145 @@ WHERE MGR = (SELECT EMPNO
                             FROM EMP 
                             WHERE ENAME = 'FORD'));
 
+-- EXISTS & NOT EXISTS
+-- Find departments where employees exist.
+SELECT * 
+FROM DEPT D 
+WHERE EXISTS (SELECT 1 
+              FROM EMP E 
+              WHERE E.DEPTNO = D.DEPTNO);
+
+-- Find departments where no employees exist.
+SELECT * 
+FROM DEPT D 
+WHERE NOT EXISTS (SELECT 1 
+                  FROM EMP E 
+                  WHERE E.DEPTNO = D.DEPTNO);
+
+-- Find employees who have a manager.
+SELECT * 
+FROM EMP E 
+WHERE EXISTS (SELECT 1 
+              FROM EMP M 
+              WHERE M.EMPNO = E.MGR);
+
+-- Find employees who do not report to anyone.
+SELECT * 
+FROM EMP E 
+WHERE NOT EXISTS (SELECT 1 
+                  FROM EMP M 
+                  WHERE M.EMPNO = E.MGR);
+
+-- Find departments having employees earning more than 3000.
+SELECT * 
+FROM DEPT D 
+WHERE EXISTS (SELECT 1 
+              FROM EMP E 
+              WHERE E.DEPTNO = D.DEPTNO AND E.SAL > 3000);
+
+-- Find departments where no employee earns more than 3000.
+SELECT * 
+FROM DEPT D 
+WHERE NOT EXISTS (SELECT 1 
+              FROM EMP E 
+              WHERE E.DEPTNO = D.DEPTNO AND E.SAL > 3000);
+
+-- Find employees who are managers of someone.
+SELECT * 
+FROM EMP E 
+WHERE EXISTS (SELECT 1 
+              FROM EMP M 
+              WHERE M.MGR = E.EMPNO);
+
+-- Find employees who are not managers of anyone.
+SELECT * 
+FROM EMP E 
+WHERE NOT EXISTS (SELECT 1 
+              FROM EMP M 
+              WHERE M.MGR = E.EMPNO);
+
+
+-- Find departments having at least one clerk.
+SELECT * 
+FROM DEPT D 
+WHERE EXISTS (SELECT 1 
+              FROM EMP E 
+              WHERE E.DEPTNO = D.DEPTNO AND E.JOB = 'CLERK');
+
+-- Find employees working in departments where at least one employee gets commission.
+SELECT * 
+FROM EMP E 
+WHERE EXISTS (SELECT 1 
+              FROM EMP M 
+              WHERE M.DEPTNO = E.DEPTNO AND COMM IS NOT NULL AND  COMM > 0 );
+
+-- CO-RELATED SUB QUERY
+-- Find employees earning more than average salary of their department.
+    SELECT * 
+    FROM EMP E 
+    WHERE E.SAL > (SELECT  AVG(M.SAL) 
+                   FROM EMP M 
+                   WHERE M.DEPTNO = E.DEPTNO);
+
+-- Find employees earning maximum salary in their department.
+    SELECT * 
+    FROM EMP E  
+    WHERE E.SAL = (SELECT MAX(SAL) 
+                   FROM EMP M 
+                   WHERE M.DEPTNO = E.DEPTNO);
+
+--  Find employees hired after average hiredate of their department.
+    SELECT * 
+    FROM EMP E 
+    WHERE E.HIREDATE > (SELECT AVG(HIREDATE) 
+                        FROM EMP M 
+                        WHERE M.DEPTNO = E.DEPTNO);
+
+-- Find employees earning less than department average salary.
+    SELECT * 
+    FROM EMP E 
+    WHERE SAL < (SELECT AVG(M.SAL) 
+                 FROM EMP M 
+                 WHERE M.DEPTNO = E.DEPTNO);
+
+-- Find employees whose salary equals minimum salary of their department.
+    SELECT * 
+    FROM EMP E 
+    WHERE E.SAL = (SELECT MIN(M.SAL) 
+                   FROM EMP M 
+                   WHERE M.DEPTNO = E.DEPTNO);
+
+-- Find employees earning more than average salary of employees with same job.
+    SELECT * 
+    FROM EMP E  
+    WHERE E.SAL > (SELECT AVG(SAL) 
+                   FROM EMP M 
+                   WHERE M.JOB = E.JOB);
+
+-- Find employees hired earliest in each department.
+    SELECT * 
+    FROM EMP E 
+    WHERE E.HIREDATE = (SELECT MIN(HIREDATE) 
+                       FROM EMP M 
+                       WHERE M.DEPTNO = E.DEPTNO);
+
+-- Find employees earning highest salary in each job.
+    SELECT * 
+    FROM EMP E 
+    WHERE E.SAL = (SELECT MAX(SAL) 
+                    FROM EMP M 
+                    WHERE M.JOB = E.JOB);
+
+-- Find departments where at least one employee earns more than department average.
+    SELECT DISTINCT E.DEPTNO 
+    FROM EMP E 
+    WHERE E.SAL > (SELECT AVG(SAL) 
+                   FROM EMP M 
+                   WHERE M.DEPTNO = E.DEPTNO) ;
+    
+-- Find employees earning more than manager salary.
+     SELECT * 
+     FROM EMP E 
+     WHERE E.SAL > (SELECT SAL 
+                    FROM EMP M 
+                    WHERE M.EMPNO = E.MGR);
